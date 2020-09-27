@@ -1,25 +1,30 @@
 package com.example.android_2_kurs
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val intent = intent
+        nameUser.text = intent.getStringExtra("name")
+        textView2.text = intent.getStringExtra("city")
+        textView4.text = intent.getStringExtra("workplace")
 
         editNameButton.setOnClickListener {
 
             if (nameUser.visibility == View.VISIBLE) {
                 nameUser.setVisibility(View.INVISIBLE)
-                id_editNameText.setVisibility(View.VISIBLE)
-                id_editNameText.setText(nameUser.text)
+                editNameText.setVisibility(View.VISIBLE)
+                editNameText.setText(nameUser.text)
             } else {
                 nameUser.setVisibility(View.VISIBLE)
-                id_editNameText.setVisibility(View.INVISIBLE)
-                nameUser.text = id_editNameText.text
+                editNameText.setVisibility(View.INVISIBLE)
+                nameUser.text = editNameText.text
             }
         }
     }

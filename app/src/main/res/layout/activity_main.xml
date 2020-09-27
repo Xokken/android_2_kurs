@@ -53,7 +53,7 @@
         android:layout_width="163dp"
         android:layout_height="120dp"
         android:layout_marginTop="104dp"
-        android:src="@mipmap/saber"
+        android:src="@drawable/saber3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +68,7 @@
         android:text="Saber"
         android:textColor="#050505"
         android:textSize="30dp"
-        android:textStyle="italic"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -85,7 +85,7 @@
         app:layout_constraintTop_toBottomOf="@+id/nameUser" />
 
     <EditText
-        android:id="@+id/id_editNameText"
+        android:id="@+id/editNameText"
         android:layout_width="190dp"
         android:layout_height="53dp"
         android:ems="10"
@@ -145,6 +145,7 @@
         android:layout_marginStart="44dp"
         android:layout_marginTop="60dp"
         android:text="Current City"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -157,6 +158,7 @@
         android:layout_marginStart="44dp"
         android:layout_marginTop="12dp"
         android:text="Workplace"
+        android:textStyle="italic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -167,6 +169,7 @@
         android:layout_marginStart="44dp"
         android:layout_marginTop="16dp"
         android:text="School"
+        android:textStyle="italic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -177,6 +180,7 @@
         android:layout_marginStart="44dp"
         android:layout_marginTop="16dp"
         android:text="Hometown"
+        android:textStyle="italic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -188,6 +192,7 @@
         android:layout_marginStart="44dp"
         android:layout_marginTop="16dp"
         android:text="Relationship Status"
+        android:textStyle="italic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
