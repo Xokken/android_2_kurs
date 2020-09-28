@@ -10,10 +10,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val intent = intent
         nameUser.text = intent.getStringExtra("name")
-        textView2.text = intent.getStringExtra("city")
-        textView4.text = intent.getStringExtra("workplace")
+        textView2.text = intent.getStringExtra("workplace")
+        textView4.text = intent.getStringExtra("city")
 
         editNameButton.setOnClickListener {
 
