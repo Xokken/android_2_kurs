@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SongFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <ImageView
+        android:id="@+id/imageSongProfile"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/textNameProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="@+id/imageSongProfile"
+        app:layout_constraintStart_toStartOf="@+id/imageSongProfile"
+        app:layout_constraintTop_toBottomOf="@+id/imageSongProfile" />
+
+    <TextView
+        android:id="@+id/textAuthorProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="@+id/buttonStop"
+        app:layout_constraintStart_toStartOf="@+id/buttonStop"
+        app:layout_constraintTop_toBottomOf="@+id/textNameProfile" />
+
+
+    <Button
+        android:id="@+id/buttonPrev"
+        android:layout_width="58dp"
+        android:layout_height="55dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonStop"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textAuthorProfile"
+        app:layout_constraintVertical_bias="0.728" />
+
+    <Button
+        android:id="@+id/buttonStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageSongProfile"
+        app:layout_constraintStart_toStartOf="@+id/imageSongProfile"
+        app:layout_constraintTop_toBottomOf="@+id/textAuthorProfile"
+        app:layout_constraintVertical_bias="0.733" />
+
+    <Button
+        android:id="@+id/buttonNext"
+        android:layout_width="65dp"
+        android:layout_height="49dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.577"
+        app:layout_constraintStart_toEndOf="@+id/buttonStop"
+        app:layout_constraintTop_toBottomOf="@+id/textAuthorProfile"
+        app:layout_constraintVertical_bias="0.732" />
+
+    <ImageButton
+        android:id="@+id/imageButtonBack"
+        android:layout_width="55dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageSongProfile"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

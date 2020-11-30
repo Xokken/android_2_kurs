@@ -1,15 +1,14 @@
-package com.example.android_2_kurs
+package com.example.android_2_kurs.entity
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.android_2_kurs.entity.Song
 
 class SongAdapter(private val songList: ArrayList<Song>,
-                  private val itemClick: (Int) -> (Unit)) : RecyclerView.Adapter<SongViewHolder>() {
+                  private val itemClick: (Song) -> (Unit)) : RecyclerView.Adapter<SongViewHolder>() {
 
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder{
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
         return SongViewHolder.create(parent, itemClick)
     }
 
