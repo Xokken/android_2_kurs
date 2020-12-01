@@ -4,28 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SongFragment">
+    tools:context=".layout.fragment.SongFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
+        android:backgroundTint="@color/colorAccent"
         android:id="@+id/imageSongProfile"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="76dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
         tools:src="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/textNameProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="TextView"
+        android:layout_marginTop="20dp"
+        android:text="axaxaxaxax"
+        android:textStyle="normal"
+        android:textSize="36dp"
+        android:textColor="@color/textViewColor"
         app:layout_constraintEnd_toEndOf="@+id/imageSongProfile"
         app:layout_constraintStart_toStartOf="@+id/imageSongProfile"
         app:layout_constraintTop_toBottomOf="@+id/imageSongProfile" />
@@ -35,54 +40,59 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:text="TextView"
+        android:text="AZazaz"
+        android:textStyle="normal"
+        android:textSize="20dp"
+        android:textColor="@color/textViewColor"
         app:layout_constraintEnd_toEndOf="@+id/buttonStop"
         app:layout_constraintStart_toStartOf="@+id/buttonStop"
         app:layout_constraintTop_toBottomOf="@+id/textNameProfile" />
 
 
-    <Button
+    <ImageButton
         android:id="@+id/buttonPrev"
-        android:layout_width="58dp"
-        android:layout_height="55dp"
-        android:text="Button"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/states_prev"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonStop"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textAuthorProfile"
-        app:layout_constraintVertical_bias="0.728" />
+        app:layout_constraintVertical_bias="0.733" />
 
-    <Button
+    <ImageButton
         android:id="@+id/buttonStop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_pause_black_18dp"
+        android:background="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageSongProfile"
         app:layout_constraintStart_toStartOf="@+id/imageSongProfile"
         app:layout_constraintTop_toBottomOf="@+id/textAuthorProfile"
         app:layout_constraintVertical_bias="0.733" />
 
-    <Button
+    <ImageButton
         android:id="@+id/buttonNext"
-        android:layout_width="65dp"
-        android:layout_height="49dp"
-        android:text="Button"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/states_next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.577"
+        app:layout_constraintHorizontal_bias="0.525"
         app:layout_constraintStart_toEndOf="@+id/buttonStop"
         app:layout_constraintTop_toBottomOf="@+id/textAuthorProfile"
-        app:layout_constraintVertical_bias="0.732" />
+        app:layout_constraintVertical_bias="0.733" />
 
     <ImageButton
         android:id="@+id/imageButtonBack"
-        android:layout_width="55dp"
-        android:layout_height="49dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/states_back"
         app:layout_constraintEnd_toStartOf="@+id/imageSongProfile"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.197"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@tools:sample/avatars" />

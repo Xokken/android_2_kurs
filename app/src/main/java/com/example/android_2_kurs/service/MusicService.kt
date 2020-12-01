@@ -1,92 +1,117 @@
 package com.example.android_2_kurs.service
 
-import android.app.IntentService
+import android.app.Service
 import android.content.Intent
-import android.content.Context
+import android.media.MediaPlayer
+import android.os.Binder
+import android.os.IBinder
+import com.example.android_2_kurs.entity.SongRepository
+import com.example.android_2_kurs.notifications.NotificationController
 
-// TODO: Rename actions, choose action names that describe tasks that this
-// IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
-private const val ACTION_FOO = "com.example.android_2_kurs.service.action.FOO"
-private const val ACTION_BAZ = "com.example.android_2_kurs.service.action.BAZ"
+class MusicService : Service() {
 
-// TODO: Rename parameters
-private const val EXTRA_PARAM1 = "com.example.android_2_kurs.service.extra.PARAM1"
-private const val EXTRA_PARAM2 = "com.example.android_2_kurs.service.extra.PARAM2"
+    private val CHANNEL_ID = "xokken_music"
+    private val notificationId = 1
+    lateinit var mediaPlayer: MediaPlayer
+    var currentSong = 0
+    var songList = SongRepository.getRepository()
+    private lateinit var musicBinder: MusicBinder
+    private lateinit var notificationController: NotificationController
 
-/**
- * An [IntentService] subclass for handling asynchronous task requests in
- * a service on a separate handler thread.
 
- * TODO: Customize class - update intent actions, extra parameters and static
- * helper methods.
+    inner class MusicBinder : Binder() {
+        fun getService(): MusicService = this@MusicService
 
- */
-class MusicService : IntentService("MusicService") {
+    }
 
-    override fun onHandleIntent(intent: Intent?) {
-        when (intent?.action) {
-            ACTION_FOO -> {
-                val param1 = intent.getStringExtra(EXTRA_PARAM1)
-                val param2 = intent.getStringExtra(EXTRA_PARAM2)
-                handleActionFoo(param1, param2)
+    override fun onCreate() {
+        super.onCreate()
+        init()
+        initNotification()
+    }
+
+    override fun onBind(intent: Intent): IBinder = musicBinder
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        when(intent?.action){
+            "PREVIOUS" -> {
+                playPrevSong()
+                notificationController.currentSongId = startId
             }
-            ACTION_BAZ -> {
-                val param1 = intent.getStringExtra(EXTRA_PARAM1)
-                val param2 = intent.getStringExtra(EXTRA_PARAM2)
-                handleActionBaz(param1, param2)
+            "RESUME" -> {
+                playSong()
+                notificationController.currentSongId = startId
             }
+            "NEXT" -> {
+                playNextSong()
+                notificationController.currentSongId = startId
+            }
+        }
+        return super.onStartCommand(intent, flags, startId)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer.release()
+    }
+
+    private fun init() {
+        mediaPlayer = MediaPlayer()
+        musicBinder = MusicBinder()
+    }
+
+    private fun initNotification(){
+        notificationController = NotificationController(this).apply {
+            build(2)
+        }
+
+    }
+
+    fun playPrevSong() {
+        currentSong.let {
+            currentSong = if (it == 0) {
+                songList.size - 1
+            } else {
+                it - 1
+            }
+            setSong(currentSong)
+            playSong()
         }
     }
 
-    /**
-     * Handle action Foo in the provided background thread with the provided
-     * parameters.
-     */
-    private fun handleActionFoo(param1: String, param2: String) {
-        TODO("Handle action Foo")
-    }
-
-    /**
-     * Handle action Baz in the provided background thread with the provided
-     * parameters.
-     */
-    private fun handleActionBaz(param1: String, param2: String) {
-        TODO("Handle action Baz")
-    }
-
-    companion object {
-        /**
-         * Starts this service to perform action Foo with the given parameters. If
-         * the service is already performing a task this action will be queued.
-         *
-         * @see IntentService
-         */
-        // TODO: Customize helper method
-        @JvmStatic
-        fun startActionFoo(context: Context, param1: String, param2: String) {
-            val intent = Intent(context, MusicService::class.java).apply {
-                action = ACTION_FOO
-                putExtra(EXTRA_PARAM1, param1)
-                putExtra(EXTRA_PARAM2, param2)
+    fun playNextSong() {
+        currentSong.let {
+            currentSong = if (it == songList.size -1) {
+                0
+            } else {
+                it + 1
             }
-            context.startService(intent)
-        }
-
-        /**
-         * Starts this service to perform action Baz with the given parameters. If
-         * the service is already performing a task this action will be queued.
-         *
-         * @see IntentService
-         */
-        // TODO: Customize helper method
-        @JvmStatic
-        fun startActionBaz(context: Context, param1: String, param2: String) {
-            val intent = Intent(context, MusicService::class.java).apply {
-                action = ACTION_BAZ
-                putExtra(EXTRA_PARAM1, param1)
-                putExtra(EXTRA_PARAM2, param2)
-            }
-            context.startService(intent)
+            setSong(currentSong)
+            playSong()
         }
     }
+
+
+    fun playSong() {
+        if (mediaPlayer.isPlaying){
+            mediaPlayer.pause()
+        }
+        else {
+            mediaPlayer.start()
+        }
+    }
+
+    fun setSong(id: Int) {
+        if (mediaPlayer.isPlaying) mediaPlayer.stop()
+        mediaPlayer = MediaPlayer.create(applicationContext, songList[id].file)
+        currentSong = id
+        mediaPlayer.run {
+            setOnCompletionListener {
+                stop()
+            }
+        }
+        notificationController.build(id)
+        notificationController.currentSongId = id
+    }
+
 }

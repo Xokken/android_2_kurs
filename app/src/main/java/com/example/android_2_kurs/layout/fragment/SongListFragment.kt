@@ -48,8 +48,8 @@ class SongListFragment : Fragment() {
         recyclerView = rootView.findViewById(R.id.listSongFragment) as RecyclerView // Add this
         recyclerView!!.layoutManager = LinearLayoutManager(activity)
         adapter = SongAdapter(SongRepository.getRepository()) {
-            Toast.makeText(context, "hi $it", Toast.LENGTH_SHORT).show()
             fragmentManager?.beginTransaction()
+                ?.setCustomAnimations(R.anim.fade_in, R.anim.slide_out)
                 ?.replace(R.id.fragment_container, SongFragment.newInstance(it.id))
                 ?.commit()
         }
@@ -59,11 +59,7 @@ class SongListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        println(SongRepository.getRepository().toString() + "     zx    " + adapter!!.itemCount)
-        Toast.makeText(context, "hi", Toast.LENGTH_SHORT).show()
         listSongFragment.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-
-
     }
 
 

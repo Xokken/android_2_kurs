@@ -11,12 +11,13 @@
         android:theme="@style/AppTheme">
         <service
             android:name=".service.MusicService"
-            android:exported="false"></service>
+            android:enabled="true"
+            android:exported="true" />
 
-        <activity android:name=".layout.MainActivity">
+        <activity android:name=".layout.MainActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
