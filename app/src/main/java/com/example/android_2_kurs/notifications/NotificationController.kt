@@ -54,7 +54,6 @@ class NotificationController(private val context: Context){
             this.addCategory(Intent.CATEGORY_LAUNCHER);
             this.putExtra("key", currentSongId.toString())
         }
-        Log.println(Log.DEBUG, "bvccc", currentSongId.toString())
         val previousPendingIntent = PendingIntent.getService(context, 0, previousIntent, 0)
         val resumePendingIntent = PendingIntent.getService(context, 1, resumeIntent, 0)
         val nextPendingIntent = PendingIntent.getService(context, 2, nextIntent, 0)
