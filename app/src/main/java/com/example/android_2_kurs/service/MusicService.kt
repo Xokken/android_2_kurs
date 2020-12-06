@@ -84,7 +84,7 @@ class MusicService : Service(){
                 it + 1
             }
             setSong(currentSong)
-            testCallback(5)
+            testCallback(currentSong)
             playSong()
         }
     }

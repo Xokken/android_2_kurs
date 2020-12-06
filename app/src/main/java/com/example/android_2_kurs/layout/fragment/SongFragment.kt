@@ -72,7 +72,8 @@ class SongFragment : Fragment() , Callback{
         super.onViewCreated(view, savedInstanceState)
         val songList = SongRepository.getRepository()
         var buf = param1
-        if (param1 == 1) buf = 2
+        if (param1!! < 3) buf = 2
+        if (param1!! > 6) buf = 7
         Log.println(Log.DEBUG, "dsa", songList.toString() + "\n" + param1)
         updateView(songList[buf?.minus(2)!!].id)
         imageButtonBack.setOnClickListener {

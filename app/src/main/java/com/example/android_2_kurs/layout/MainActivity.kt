@@ -17,11 +17,13 @@ class MainActivity : AppCompatActivity(){
 
     override fun onNewIntent(intent: Intent?) {
         val menuFragment = intent?.extras
-        val id = 1 + (menuFragment?.getInt("click") ?: 1)
-        supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.fade_in, R.anim.slide_out)
-            .replace(R.id.fragment_container, SongFragment.newInstance(id))
-            .commit()
+        val id = menuFragment?.getInt("click")?.plus(2)
+        id?.let { SongFragment.newInstance(it) }?.let {
+            supportFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.slide_out)
+                .replace(R.id.fragment_container, it)
+                .commit()
+        }
         super.onNewIntent(intent)
 
     }

@@ -60,7 +60,7 @@ class NotificationController(private val context: Context){
         notificationBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_play_arrow_black_18dp)
             .addAction(R.drawable.ic_skip_previous_24px, "Prev", previousPIntent)
-            .addAction(R.drawable.ic_play_arrow_black_18dp, "Pause", resumePIntent)
+            .addAction(R.drawable.ic_pause_black_18dp, "Pause", resumePIntent)
             .addAction(R.drawable.ic_skip_next_24px, "Next", nextPIntent)
             .setStyle(androidx.media.app.NotificationCompat.MediaStyle())
             .setContentIntent(clickPIntent)
