@@ -12,9 +12,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.android_2_kurs.R
 import com.example.android_2_kurs.entity.Song
 import com.example.android_2_kurs.entity.SongRepository
+import com.example.android_2_kurs.service.Callback
 import com.example.android_2_kurs.service.MusicService
 import kotlinx.android.synthetic.main.fragment_song.*
 import kotlinx.android.synthetic.main.song_profile.*
@@ -29,7 +31,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [FragmentSong.newInstance] factory method to
  * create an instance of this fragment.
  */
-class SongFragment : Fragment() {
+class SongFragment : Fragment() , Callback{
     // TODO: Rename and change types of parameters
     private var param1: Int? = null
     private var musicService: MusicService? = null
@@ -38,6 +40,7 @@ class SongFragment : Fragment() {
     private val binderConnection = object : ServiceConnection {
 
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
+            (service as? MusicService.MusicBinder)?.setCallback(this@SongFragment as Callback)
             musicService = (service as? MusicService.MusicBinder)?.getService()
             if(musicService != null){
                 initView()
@@ -71,7 +74,7 @@ class SongFragment : Fragment() {
         var buf = param1
         if (param1 == 1) buf = 2
         Log.println(Log.DEBUG, "dsa", songList.toString() + "\n" + param1)
-        updateView(songList[buf!! - 2].id)
+        updateView(songList[buf?.minus(2)!!].id)
         imageButtonBack.setOnClickListener {
             fragmentManager?.beginTransaction()
                 ?.setCustomAnimations(R.anim.fade_in, R.anim.slide_out)
@@ -86,21 +89,20 @@ class SongFragment : Fragment() {
         activity?.bindService(intent, binderConnection, Context.BIND_AUTO_CREATE)
     }
 
-    private fun updateView(id:Int){ id
+    private fun updateView(id:Int){
         (id).let {
             song = SongRepository.getRepository()[it]
             Log.println(Log.DEBUG, "asd", song.toString())
-            textNameProfile.text = song!!.name
-            textAuthorProfile.text = song!!.author
-            imageSongProfile.setImageResource(song!!.cover)
+            textNameProfile.text = song?.name
+            textAuthorProfile.text = song?.author
+            song?.cover?.let { it1 -> imageSongProfile.setImageResource(it1) }
         }
     }
 
     private fun initView() {
         var id = param1
         id?.let { updateView(it - 1) }
-
-        initMusicNavigationView(id!!)
+        id?.let { initNavView(it) }
     }
 
     private fun playOnStop(mediaPlayer: MediaPlayer){
@@ -112,7 +114,7 @@ class SongFragment : Fragment() {
         }
     }
 
-    private fun initMusicNavigationView(id: Int) {
+    private fun initNavView(id: Int) {
         musicService?.setSong(id - 1)
         musicService?.playSong()
 
@@ -126,7 +128,7 @@ class SongFragment : Fragment() {
         }
         buttonStop.setOnClickListener {
             musicService?.playSong()
-            playOnStop(musicService!!.mediaPlayer)
+            musicService?.mediaPlayer?.let { it1 -> playOnStop(it1) }
             updateView(musicService?.currentSong?:0)
         }
 
@@ -149,5 +151,9 @@ class SongFragment : Fragment() {
                     putInt(ARG_PARAM1, param1)
                 }
             }
+    }
+
+    override fun testCallback(id: Int) {
+        updateView(id)
     }
 }

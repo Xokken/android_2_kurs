@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,14 +45,14 @@ class SongListFragment : Fragment() {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_song_list, container, false)
         recyclerView = rootView.findViewById(R.id.listSongFragment) as RecyclerView // Add this
-        recyclerView!!.layoutManager = LinearLayoutManager(activity)
+        recyclerView?.layoutManager = LinearLayoutManager(activity)
         adapter = SongAdapter(SongRepository.getRepository()) {
             fragmentManager?.beginTransaction()
                 ?.setCustomAnimations(R.anim.fade_in, R.anim.slide_out)
                 ?.replace(R.id.fragment_container, SongFragment.newInstance(it.id))
                 ?.commit()
         }
-        recyclerView!!.adapter = adapter
+        recyclerView?.adapter = adapter
         return rootView
     }
 
@@ -61,7 +60,6 @@ class SongListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         listSongFragment.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
     }
-
 
     companion object {
         /**

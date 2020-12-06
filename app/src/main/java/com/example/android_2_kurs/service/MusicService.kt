@@ -7,8 +7,9 @@ import android.os.Binder
 import android.os.IBinder
 import com.example.android_2_kurs.entity.SongRepository
 import com.example.android_2_kurs.notifications.NotificationController
+import kotlinx.android.synthetic.main.fragment_song.*
 
-class MusicService : Service() {
+class MusicService : Service(){
 
     private val CHANNEL_ID = "xokken_music"
     private val notificationId = 1
@@ -17,11 +18,19 @@ class MusicService : Service() {
     var songList = SongRepository.getRepository()
     private lateinit var musicBinder: MusicBinder
     private lateinit var notificationController: NotificationController
-
+    private lateinit var callback: Callback
 
     inner class MusicBinder : Binder() {
         fun getService(): MusicService = this@MusicService
 
+        fun setCallback(callback: Callback){
+            this@MusicService.callback = callback
+        }
+    }
+
+    private fun testCallback(id: Int) {
+
+        callback.testCallback(5)
     }
 
     override fun onCreate() {
@@ -36,15 +45,14 @@ class MusicService : Service() {
         when(intent?.action){
             "PREVIOUS" -> {
                 playPrevSong()
-                notificationController.currentSongId = startId
+                callback.testCallback(currentSong)
             }
             "RESUME" -> {
                 playSong()
-                notificationController.currentSongId = startId
             }
             "NEXT" -> {
                 playNextSong()
-                notificationController.currentSongId = startId
+                callback.testCallback(currentSong)
             }
         }
         return super.onStartCommand(intent, flags, startId)
@@ -55,18 +63,6 @@ class MusicService : Service() {
         mediaPlayer.release()
     }
 
-    private fun init() {
-        mediaPlayer = MediaPlayer()
-        musicBinder = MusicBinder()
-    }
-
-    private fun initNotification(){
-        notificationController = NotificationController(this).apply {
-            build(2)
-        }
-
-    }
-
     fun playPrevSong() {
         currentSong.let {
             currentSong = if (it == 0) {
@@ -75,6 +71,7 @@ class MusicService : Service() {
                 it - 1
             }
             setSong(currentSong)
+            testCallback(currentSong)
             playSong()
         }
     }
@@ -87,6 +84,7 @@ class MusicService : Service() {
                 it + 1
             }
             setSong(currentSong)
+            testCallback(5)
             playSong()
         }
     }
@@ -111,7 +109,19 @@ class MusicService : Service() {
             }
         }
         notificationController.build(id)
-        notificationController.currentSongId = id
+
+    }
+
+    private fun init() {
+        mediaPlayer = MediaPlayer()
+        musicBinder = MusicBinder()
+    }
+
+    private fun initNotification(){
+        notificationController = NotificationController(this).apply {
+            build(2)
+        }
+
     }
 
 }

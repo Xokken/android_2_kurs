@@ -3,7 +3,7 @@ package com.example.android_2_kurs.entity
 import com.example.android_2_kurs.R
 
 object SongRepository {
-    val songsList: ArrayList<Song> = arrayListOf(
+    private val songsList: ArrayList<Song> = arrayListOf(
         Song(1, "Cool Anime Track 1", "Fullmetal ost", R.drawable.aimg, R.raw.a),
         Song(2, "Cool Anime Track 2", "Fullmetal ost", R.drawable.bimg, R.raw.b),
         Song(3, "Cool Anime Track 3", "Fullmetal ost", R.drawable.cimg, R.raw.c),

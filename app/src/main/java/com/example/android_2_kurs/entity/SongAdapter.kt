@@ -6,8 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 class SongAdapter(private val songList: ArrayList<Song>,
                   private val itemClick: (Song) -> (Unit)) : RecyclerView.Adapter<SongViewHolder>() {
 
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
         return SongViewHolder.create(parent, itemClick)
     }

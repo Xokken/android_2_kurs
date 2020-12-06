@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.android_2_kurs.R
 import com.example.android_2_kurs.entity.SongRepository
@@ -49,21 +48,22 @@ class NotificationController(private val context: Context){
         val nextIntent = Intent(context, MusicService::class.java).apply {
             action = "NEXT"
         }
-        val intentt = Intent(context, MainActivity::class.java).apply {
-            this.setAction(Intent.ACTION_MAIN);
+        val clickIntent = Intent(context, MainActivity::class.java).apply {
+            action = Intent.ACTION_MAIN;
             this.addCategory(Intent.CATEGORY_LAUNCHER);
-            this.putExtra("key", currentSongId.toString())
+            this.putExtra("click", currentSongId)
         }
-        val previousPendingIntent = PendingIntent.getService(context, 0, previousIntent, 0)
-        val resumePendingIntent = PendingIntent.getService(context, 1, resumeIntent, 0)
-        val nextPendingIntent = PendingIntent.getService(context, 2, nextIntent, 0)
-        val pIntent = PendingIntent.getActivity(context, 3, intentt, PendingIntent.FLAG_UPDATE_CURRENT)
+        val previousPIntent = PendingIntent.getService(context, 0, previousIntent, 0)
+        val resumePIntent = PendingIntent.getService(context, 1, resumeIntent, 0)
+        val nextPIntent = PendingIntent.getService(context, 2, nextIntent, 0)
+        val clickPIntent = PendingIntent.getActivity(context, 3, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         notificationBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_play_arrow_black_18dp)
-            .addAction(R.drawable.ic_skip_previous_24px, "Prev", previousPendingIntent)
-            .addAction(R.drawable.ic_play_arrow_black_18dp, "Pause", resumePendingIntent)
-            .addAction(R.drawable.ic_skip_next_24px, "Next", nextPendingIntent)
-            .setContentIntent(pIntent)
+            .addAction(R.drawable.ic_skip_previous_24px, "Prev", previousPIntent)
+            .addAction(R.drawable.ic_play_arrow_black_18dp, "Pause", resumePIntent)
+            .addAction(R.drawable.ic_skip_next_24px, "Next", nextPIntent)
+            .setStyle(androidx.media.app.NotificationCompat.MediaStyle())
+            .setContentIntent(clickPIntent)
             .setNotificationSilent()
 
     }
@@ -71,15 +71,15 @@ class NotificationController(private val context: Context){
 
 
     fun build(id: Int){
-        val intentt = Intent(context, MainActivity::class.java).apply {
-            this.setAction(Intent.ACTION_MAIN);
+        val clickIntent = Intent(context, MainActivity::class.java).apply {
+            action = Intent.ACTION_MAIN;
             this.addCategory(Intent.CATEGORY_LAUNCHER);
-            this.putExtra("key", id.toString())
+            this.putExtra("click", currentSongId)
         }
         currentSongId = id
         val song = SongRepository.getRepository()[id]
         val cover = BitmapFactory.decodeResource(context.resources, song.cover)
-        val pIntent = PendingIntent.getActivity(context, 3, intentt, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pIntent = PendingIntent.getActivity(context, 3, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         val builder = notificationBuilder
             .setContentTitle(song.name)
             .setContentText(song.author)
