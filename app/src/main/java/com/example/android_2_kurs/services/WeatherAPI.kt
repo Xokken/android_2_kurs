@@ -7,13 +7,12 @@ import retrofit2.http.Query
 
 interface WeatherAPI {
 
-
-    @GET(value = "weather?appid=a9c5074f7a3453debb7a93f17648e43e&units=metric&lang=ru")
+    @GET(value = "weather?")
     suspend fun getWeatherByName(@Query("q") cityName: String) : WeatherResponse
 
-    @GET(value = "weather?appid=a9c5074f7a3453debb7a93f17648e43e&units=metric&lang=ru")
+    @GET(value = "weather?")
     suspend fun getWeatherById(@Query("id") cityId: Int) : WeatherResponse
 
-    @GET(value = "find?appid=a9c5074f7a3453debb7a93f17648e43e&units=metric&lang=ru")
+    @GET(value = "find?")
     suspend fun getWeatherCities(@Query("lat") lat: Double, @Query("lon") lon: Double, @Query("cnt") cnt: Int) : WeatherResponseList
 }
