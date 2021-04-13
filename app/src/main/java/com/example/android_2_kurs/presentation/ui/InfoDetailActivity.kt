@@ -1,10 +1,10 @@
-package com.example.android_2_kurs.activity
+package com.example.android_2_kurs.presentation.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.example.android_2_kurs.R
-import com.example.android_2_kurs.services.ApiFactory
+import com.example.android_2_kurs.data.api.ApiFactory
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_info_detail.*
 import kotlinx.coroutines.launch

@@ -1,4 +1,4 @@
-package com.example.android_2_kurs.activity
+package com.example.android_2_kurs.presentation.ui
 
 import android.Manifest
 import android.content.Intent
@@ -6,38 +6,42 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android_2_kurs.R
-import com.example.android_2_kurs.entity.City
-import com.example.android_2_kurs.recyclerview.CityAdapter
-import com.example.android_2_kurs.services.ApiFactory
+import com.example.android_2_kurs.data.WeatherRepositoryImpl
+import com.example.android_2_kurs.presentation.entity.City
+import com.example.android_2_kurs.presentation.recyclerview.CityAdapter
+import com.example.android_2_kurs.data.api.ApiFactory
+import com.example.android_2_kurs.domain.FindCitiesUseCase
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var findCitiesUseCase: FindCitiesUseCase
     private val api = ApiFactory.weatherAPI
     private val PERMISSION_LOCATION = 999
     lateinit var mFusedLocationClient: FusedLocationProviderClient
     private val CONST_LATITUDE = 54.550546
     private val CONST_LONGITUDE = 53.602365
-    private val CONST_RAD = 20
     private var adapter: CityAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        findCitiesUseCase = FindCitiesUseCase(WeatherRepositoryImpl(ApiFactory.weatherAPI), Dispatchers.IO)
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         requestPermissions()
+
         recyclerView.addItemDecoration(
             DividerItemDecoration(
                 this@MainActivity,
@@ -48,7 +52,9 @@ class MainActivity : AppCompatActivity() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let { findCityByName(it) }
+                query?.let {
+                    findCityByName(it)
+                }
                 return true
             }
 
@@ -66,15 +72,13 @@ class MainActivity : AppCompatActivity() {
     private fun findCityByName(name: String) {
         lifecycleScope.launch {
             try {
-                name.let {
-                    api.getWeatherByName(it).run {
-                        val intent = Intent(
-                            this@MainActivity,
-                            InfoDetailActivity::class.java
-                        )
-                        intent.putExtra("id", id)
-                        startActivity(intent)
-                    }
+                findCitiesUseCase.findWeatherCity(name).run {
+                    val intent = Intent(
+                        this@MainActivity,
+                        InfoDetailActivity::class.java
+                    )
+                    intent.putExtra("id", id)
+                    startActivity(intent)
                 }
             } catch (e: Exception) {
                 Snackbar.make(
@@ -87,45 +91,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun showCitiesWeather(latitude: Double, longitude: Double) {
         lifecycleScope.launch {
-            val list = api.getWeatherCities(latitude, longitude, CONST_RAD).list
-            Log.d("MYTAG", list.toString())
-            adapter = CityAdapter({
-                val intent = Intent(this@MainActivity, InfoDetailActivity::class.java)
-                intent.putExtra("id", it?.id)
-                this@MainActivity.startActivity(intent)
-            }
-           , applicationContext)
-            adapter?.submitList(list.map { weatherResponse ->
-                City(
-                    weatherResponse.id,
-                    weatherResponse.name,
-                    weatherResponse.main.temp
-                )
-            })
-            Log.d("MYTAG",
-                list.map { weatherResponse ->
-                    City(
-                        weatherResponse.id,
-                        weatherResponse.name,
-                        weatherResponse.main.temp
-                    )
+            try{
+                val list = findCitiesUseCase.findWeatherCities(latitude, longitude)
+                adapter = CityAdapter({
+                    val intent = Intent(this@MainActivity, InfoDetailActivity::class.java)
+                    intent.putExtra("id", it.id)
+                    this@MainActivity.startActivity(intent)
                 }
-                    .toString()
-            )
-            recyclerView.adapter = adapter
+                    , applicationContext)
+                adapter?.submitList(list)
+                recyclerView.adapter = adapter
+            } catch (e: Exception){
+                Snackbar.make(
+                    findViewById(android.R.id.content),
+                    "ERRROOOOROROROROROR", Snackbar.LENGTH_LONG
+                ).show()
+            }
         }
-    }
-
-
-    private fun requestPermissions() {
-        ActivityCompat.requestPermissions(
-            this@MainActivity,
-            arrayOf(
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ),
-            PERMISSION_LOCATION
-        )
     }
 
     private fun getLocation() {
@@ -137,7 +119,7 @@ class MainActivity : AppCompatActivity() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            mFusedLocationClient?.lastLocation?.addOnCompleteListener {
+            mFusedLocationClient.lastLocation.addOnCompleteListener {
                 if (it.result != null) {
                     showCitiesWeather(it.result.latitude, it.result.longitude)
                 } else {
@@ -145,6 +127,17 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun requestPermissions() {
+        ActivityCompat.requestPermissions(
+            this@MainActivity,
+            arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ),
+            PERMISSION_LOCATION
+        )
     }
 
     override fun onRequestPermissionsResult(

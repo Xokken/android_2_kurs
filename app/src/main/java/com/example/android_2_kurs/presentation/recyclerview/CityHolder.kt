@@ -1,16 +1,13 @@
-package com.example.android_2_kurs.recyclerview
+package com.example.android_2_kurs.presentation.recyclerview
 
 import android.content.Context
-import android.content.Intent
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_2_kurs.R
-import com.example.android_2_kurs.activity.InfoDetailActivity
-import com.example.android_2_kurs.entity.City
+import com.example.android_2_kurs.presentation.entity.City
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.city_info.*
 

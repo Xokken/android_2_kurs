@@ -1,7 +1,7 @@
-package com.example.android_2_kurs.services
+package com.example.android_2_kurs.data.api
 
-import com.example.android_2_kurs.entity.WeatherResponse
-import com.example.android_2_kurs.entity.WeatherResponseList
+import com.example.android_2_kurs.data.api.response.WeatherResponse
+import com.example.android_2_kurs.data.api.response.WeatherResponseList
 import retrofit2.http.GET
 import retrofit2.http.Query
 

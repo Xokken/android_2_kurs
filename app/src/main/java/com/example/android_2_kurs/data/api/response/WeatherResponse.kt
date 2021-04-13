@@ -1,4 +1,4 @@
-package com.example.android_2_kurs.entity
+package com.example.android_2_kurs.data.api.response
 import com.google.gson.annotations.SerializedName
 
 

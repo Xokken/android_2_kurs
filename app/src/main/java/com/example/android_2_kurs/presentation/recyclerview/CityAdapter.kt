@@ -1,11 +1,10 @@
-package com.example.android_2_kurs.recyclerview
+package com.example.android_2_kurs.presentation.recyclerview
 
 import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.example.android_2_kurs.entity.City
+import com.example.android_2_kurs.presentation.entity.City
 
 class CityAdapter(
     private val itemClick: (City) -> Unit,

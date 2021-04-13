@@ -1,4 +1,4 @@
-package com.example.android_2_kurs.services
+package com.example.android_2_kurs.data.api
 
 import com.example.android_2_kurs.BuildConfig
 import okhttp3.Interceptor
