@@ -13,8 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.InfoDetailActivity"/>
-        <activity android:name=".activity.MainActivity">
+        <activity android:name="com.example.android_2_kurs.presentation.ui.InfoDetailActivity"/>
+        <activity android:name="com.example.android_2_kurs.presentation.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
