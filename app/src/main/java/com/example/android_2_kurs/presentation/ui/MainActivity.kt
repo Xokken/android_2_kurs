@@ -11,11 +11,12 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.android_2_kurs.R
+import com.example.android_2_kurs.data.RoomRepositoryImpl
 import com.example.android_2_kurs.data.WeatherRepositoryImpl
-import com.example.android_2_kurs.presentation.entity.City
 import com.example.android_2_kurs.presentation.recyclerview.CityAdapter
 import com.example.android_2_kurs.data.api.ApiFactory
-import com.example.android_2_kurs.domain.FindCitiesUseCase
+import com.example.android_2_kurs.data.room.AppDatabase
+import com.example.android_2_kurs.domain.FindAndSaveCitiesUseCase
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
@@ -26,8 +27,7 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var findCitiesUseCase: FindCitiesUseCase
-    private val api = ApiFactory.weatherAPI
+    private lateinit var findAndSaveCitiesUseCase: FindAndSaveCitiesUseCase
     private val PERMISSION_LOCATION = 999
     lateinit var mFusedLocationClient: FusedLocationProviderClient
     private val CONST_LATITUDE = 54.550546
@@ -38,7 +38,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findCitiesUseCase = FindCitiesUseCase(WeatherRepositoryImpl(ApiFactory.weatherAPI), Dispatchers.IO)
+        findAndSaveCitiesUseCase = FindAndSaveCitiesUseCase(
+            WeatherRepositoryImpl(ApiFactory.weatherAPI),
+            RoomRepositoryImpl(AppDatabase(this)),
+            Dispatchers.IO)
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         requestPermissions()
 
@@ -72,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     private fun findCityByName(name: String) {
         lifecycleScope.launch {
             try {
-                findCitiesUseCase.findWeatherCity(name).run {
+                findAndSaveCitiesUseCase.findWeatherCity(name).run {
                     val intent = Intent(
                         this@MainActivity,
                         InfoDetailActivity::class.java
@@ -90,21 +93,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showCitiesWeather(latitude: Double, longitude: Double) {
+        adapter = CityAdapter({
+            val intent = Intent(this@MainActivity, InfoDetailActivity::class.java)
+            intent.putExtra("id", it.id)
+            this@MainActivity.startActivity(intent)
+        }
+            , applicationContext)
         lifecycleScope.launch {
             try{
-                val list = findCitiesUseCase.findWeatherCities(latitude, longitude)
-                adapter = CityAdapter({
-                    val intent = Intent(this@MainActivity, InfoDetailActivity::class.java)
-                    intent.putExtra("id", it.id)
-                    this@MainActivity.startActivity(intent)
-                }
-                    , applicationContext)
+                Log.d("MYTAG", "DJITKKKKK")
+                val list = findAndSaveCitiesUseCase.findWeatherCities(latitude, longitude)
+                findAndSaveCitiesUseCase.clearAllCities()
+                findAndSaveCitiesUseCase.saveListCities(list)
                 adapter?.submitList(list)
                 recyclerView.adapter = adapter
             } catch (e: Exception){
+                adapter?.submitList(findAndSaveCitiesUseCase.getListCities())
+                recyclerView.adapter = adapter
                 Snackbar.make(
                     findViewById(android.R.id.content),
-                    "ERRROOOOROROROROROR", Snackbar.LENGTH_LONG
+                    "Error connection. This old data senpai!!!", Snackbar.LENGTH_LONG
                 ).show()
             }
         }

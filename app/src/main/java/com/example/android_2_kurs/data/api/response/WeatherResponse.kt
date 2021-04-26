@@ -1,7 +1,8 @@
 package com.example.android_2_kurs.data.api.response
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
-
+@Entity
 data class WeatherResponse(
     @SerializedName("clouds")
     var clouds: Clouds,
