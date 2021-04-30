@@ -3,4 +3,11 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="gradient">#007874</color>
+    <color name="very_cold">#0044F1</color>
+    <color name="cold">#2563FF</color>
+    <color name="little_cold">#4175FA</color>
+    <color name="little_warm">#F8CE36</color>
+    <color name="warm">#FF5327</color>
+    <color name="very_warm">#F10000</color>
 </resources>
