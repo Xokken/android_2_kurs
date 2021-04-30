@@ -13,6 +13,12 @@ class FindAndSaveCitiesUseCase(
     private val context: CoroutineContext
 ) {
 
+    suspend fun getWeatherById(id: Int): WeatherResponse{
+        return withContext(context) {
+            weatherRepository.getWeatherById(id)
+        }
+    }
+
     suspend fun findWeatherCity(name: String): WeatherResponse{
         return withContext(context) {
             weatherRepository.getWeatherCity(name)

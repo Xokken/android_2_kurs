@@ -43,6 +43,7 @@ android {
 def retrofit = "2.9.0"
 def lifecycle_ver = "2.2.0"
 def room_version = "2.2.6"
+def moxyVersion="2.2.1"
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -91,5 +92,12 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     // optional - Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
+
+    //moxy
+    implementation "com.github.moxy-community:moxy:$moxyVersion"
+    kapt "com.github.moxy-community:moxy-compiler:$moxyVersion"
+    implementation "com.github.moxy-community:moxy-androidx:$moxyVersion"
+    implementation "com.github.moxy-community:moxy-material:$moxyVersion"
+    implementation "com.github.moxy-community:moxy-ktx:$moxyVersion"
 
 }

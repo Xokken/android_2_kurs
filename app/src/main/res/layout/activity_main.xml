@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/my_gradient"
-    tools:context=".presentation.ui.MainActivity">
+    tools:context=".presentation.main.MainActivity">
 
     <SearchView
         android:id="@+id/searchView"
@@ -25,5 +25,16 @@
         tools:itemCount="20"
         tools:layout_editor_absoluteX="5dp"
         tools:listitem="@layout/city_info" />
+
+    <ProgressBar
+        android:id="@+id/progress_main"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

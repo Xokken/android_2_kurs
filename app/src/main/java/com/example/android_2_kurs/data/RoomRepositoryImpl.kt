@@ -1,6 +1,5 @@
 package com.example.android_2_kurs.data
 
-import com.example.android_2_kurs.data.api.response.WeatherResponse
 import com.example.android_2_kurs.data.room.AppDatabase
 import com.example.android_2_kurs.domain.RoomRepository
 import com.example.android_2_kurs.presentation.entity.City
