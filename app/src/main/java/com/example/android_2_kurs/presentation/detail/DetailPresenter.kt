@@ -7,8 +7,9 @@ import com.example.android_2_kurs.presentation.entity.CityResponse
 import kotlinx.coroutines.launch
 import moxy.MvpPresenter
 import moxy.presenterScope
+import javax.inject.Inject
 
-class DetailPresenter(
+class DetailPresenter @Inject constructor(
     private val findAndSaveCitiesUseCase: FindAndSaveCitiesUseCase
 ): MvpPresenter<DetailView>(){
 
@@ -33,8 +34,8 @@ class DetailPresenter(
     }
 
     private fun setInfo(cityResponse: CityResponse){
-        Log.d("MYTAG", cityResponse?.toString())
-        cityResponse?.run {
+        Log.d("MYTAG", cityResponse.toString())
+        cityResponse.run {
             viewState.setName(name)
             viewState.setLat(lat)
             viewState.setLon(lon)
@@ -50,7 +51,7 @@ class DetailPresenter(
     }
 
     private fun getCityResponse(response: WeatherResponse): CityResponse{
-        return response?.let{
+        return response.let{
             CityResponse(
                 it.id,
                 it.name,

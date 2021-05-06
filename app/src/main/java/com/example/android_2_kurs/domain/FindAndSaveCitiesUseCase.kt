@@ -5,9 +5,10 @@ import com.example.android_2_kurs.data.api.response.WeatherResponseList
 import com.example.android_2_kurs.presentation.entity.City
 import com.example.android_2_kurs.presentation.entity.CityResponse
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class FindAndSaveCitiesUseCase(
+class FindAndSaveCitiesUseCase @Inject constructor(
     private val weatherRepository: WeatherRepository,
     private val roomRepository: RoomRepository,
     private val context: CoroutineContext

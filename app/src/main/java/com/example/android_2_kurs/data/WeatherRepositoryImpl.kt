@@ -4,6 +4,7 @@ import com.example.android_2_kurs.data.api.WeatherAPI
 import com.example.android_2_kurs.data.api.response.WeatherResponse
 import com.example.android_2_kurs.data.api.response.WeatherResponseList
 import com.example.android_2_kurs.domain.WeatherRepository
+import javax.inject.Inject
 
 class WeatherRepositoryImpl(
     private val weatherAPI: WeatherAPI

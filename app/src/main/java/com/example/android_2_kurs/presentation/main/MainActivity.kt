@@ -11,25 +11,19 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ListAdapter
+import com.example.android_2_kurs.ApplicationDelegate
 import com.example.android_2_kurs.R
-import com.example.android_2_kurs.data.LocationRepositoryImpl
-import com.example.android_2_kurs.data.RoomRepositoryImpl
-import com.example.android_2_kurs.data.WeatherRepositoryImpl
-import com.example.android_2_kurs.data.api.ApiFactory
-import com.example.android_2_kurs.data.room.AppDatabase
-import com.example.android_2_kurs.domain.FindAndSaveCitiesUseCase
 import com.example.android_2_kurs.presentation.entity.City
 import com.example.android_2_kurs.presentation.recyclerview.CityAdapter
 import com.example.android_2_kurs.presentation.recyclerview.CityHolder
 import com.example.android_2_kurs.presentation.detail.InfoDetailActivity
-import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
+import javax.inject.Inject
 
 
 class MainActivity : MvpAppCompatActivity(), MainView {
@@ -38,19 +32,14 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     private val CONST_LATITUDE = 54.550546
     private val CONST_LONGITUDE = 53.602365
     @InjectPresenter
+    @Inject
     lateinit var mainPresenter: MainPresenter
 
     @ProvidePresenter
-    fun initMainPresenter(): MainPresenter {
-        return MainPresenter(
-            FindAndSaveCitiesUseCase(
-                WeatherRepositoryImpl(ApiFactory.weatherAPI),
-                RoomRepositoryImpl(AppDatabase(this)),
-                Dispatchers.IO),
-            LocationRepositoryImpl(LocationServices.getFusedLocationProviderClient(this)))
-    }
+    fun providePresenter(): MainPresenter = mainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ApplicationDelegate.weatherComponent.injectMain(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         requestPermissions()

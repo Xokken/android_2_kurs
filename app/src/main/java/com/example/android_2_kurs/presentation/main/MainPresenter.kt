@@ -8,8 +8,9 @@ import com.example.android_2_kurs.presentation.recyclerview.CityHolder
 import kotlinx.coroutines.launch
 import moxy.MvpPresenter
 import moxy.presenterScope
+import javax.inject.Inject
 
-class MainPresenter(
+class MainPresenter @Inject constructor(
     private val findAndSaveCitiesUseCase: FindAndSaveCitiesUseCase,
     private val locationRepository: LocationRepository
 ): MvpPresenter<MainView>(){

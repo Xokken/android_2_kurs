@@ -2,24 +2,15 @@ package com.example.android_2_kurs.presentation.detail
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.lifecycleScope
+import com.example.android_2_kurs.ApplicationDelegate
 import com.example.android_2_kurs.R
-import com.example.android_2_kurs.data.LocationRepositoryImpl
-import com.example.android_2_kurs.data.RoomRepositoryImpl
-import com.example.android_2_kurs.data.WeatherRepositoryImpl
-import com.example.android_2_kurs.data.api.ApiFactory
-import com.example.android_2_kurs.data.room.AppDatabase
-import com.example.android_2_kurs.domain.FindAndSaveCitiesUseCase
-import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_info_detail.*
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import java.text.SimpleDateFormat
+import javax.inject.Inject
 
 
 class InfoDetailActivity : MvpAppCompatActivity(), DetailView {
@@ -28,21 +19,14 @@ class InfoDetailActivity : MvpAppCompatActivity(), DetailView {
     private val simpleDateFormat = SimpleDateFormat("h:mm a")
 
     @InjectPresenter
+    @Inject
     lateinit var detailPresenter: DetailPresenter
 
     @ProvidePresenter
-    fun initDetailPresenter(): DetailPresenter {
-        return DetailPresenter(
-            FindAndSaveCitiesUseCase(
-                WeatherRepositoryImpl(ApiFactory.weatherAPI),
-                RoomRepositoryImpl(AppDatabase(this)),
-                Dispatchers.Default
-            ),
-        )
-
-    }
+    fun providePresenter(): DetailPresenter = detailPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ApplicationDelegate.weatherComponent.injectDetail(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_info_detail)
         val id = intent.getIntExtra("id", -1)
