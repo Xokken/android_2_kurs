@@ -1,6 +1,7 @@
 package com.example.android_2_kurs.presentation.recyclerview
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,7 @@ class CityHolder(
         cl_body.setOnClickListener {
             itemClick.invoke(city)
         }
+        Log.d("test", city.toString())
         this.city = city
         with(city) {
             tv_nameCity.text = name

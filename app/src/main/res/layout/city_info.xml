@@ -24,7 +24,7 @@
         android:layout_marginTop="16dp"
         android:gravity="right"
         android:paddingEnd="40dp"
-        android:text="TextView"
+        android:text="TextView222"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.801"
